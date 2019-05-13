@@ -55,8 +55,8 @@ ctaImg.setAttribute('src', siteContent["cta"]["img-src"])
 
 const nav01 = document.createElement('a');
 const nav02 = document.createElement('a');
-nav01.setAttribute("src","#");
-nav02.setAttribute("src","#");
+nav01.setAttribute("href","#");
+nav02.setAttribute("href","#");
 
 const navEl = document.querySelector("nav");
 navEl.appendChild(nav01);
