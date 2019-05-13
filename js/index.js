@@ -97,3 +97,16 @@ contactP[2].textContent = siteContent.contact["email"];
 
 let footerP = document.querySelector("footer p");
 footerP.textContent = siteContent.footer.copyright;
+
+let bodyEL = document.querySelector("body");
+bodyEL.style.color = "#999";
+
+function changeH1() {
+  if( ctaH1.textContent === siteContent.cta.h1) {
+    ctaH1.textContent = "BLAH! Is BLAAAAH!";
+  } else {
+    ctaH1.textContent = siteContent.cta.h1;
+  }
+}
+
+ctaBtn.addEventListener("click", changeH1, false)
