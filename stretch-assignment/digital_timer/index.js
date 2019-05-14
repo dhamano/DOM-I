@@ -11,7 +11,6 @@
   document.querySelector(".digits").append(brEl);
   document.querySelector(".digits").append(startButton);
   document.querySelector(".digits").append(resetButton);
-
 })();
 
 let sTensEl = document.getElementById("secondTens");
@@ -26,6 +25,7 @@ let msTens = 0;
   
 let doIZero = true;
 let stopTimer = true;
+let incNext = false;
 
 function resetTimer() {
   document.querySelector(".digits").classList.remove('redDigit');
@@ -38,11 +38,9 @@ function resetTimer() {
 }
 
 function startTimer() {
-  document.getElementById("start").disabled = true;
-  document.getElementById("reset").disabled = true;
-  if(sTens !== 0) {
-    resetTimer();
-  }
+  toggleDisabledOnButtons("start");
+  toggleDisabledOnButtons("reset");
+  if(sTens !== 0) { resetTimer(); }
   let timer = setInterval(incrementTime, 10)
 
   function incrementTime() {
@@ -59,47 +57,47 @@ function startTimer() {
     msTensEl.textContent = 0;
     return false
   }
+
+  function incrementNumber(numToInc, elToInc) {
+    if(numToInc<9) {
+      numToInc++;
+      elToInc.textContent = numToInc;
+      incNext = false;
+    } else {
+      numToInc = 0;
+      elToInc.textContent = numToInc;
+      incNext = true;
+    }
+    return numToInc;
+  }
+
+  function toggleDisabledOnButtons(buttonID) {
+    (document.getElementById(buttonID).disabled) ? document.getElementById(buttonID).disabled = false : document.getElementById(buttonID).disabled = true;
+  }
   
   function msTenIncrement() {
-    if(msTens<9) {
-      msTens++;
-      msTensEl.textContent = msTens;
-    } else {
-      msTens = 0;
-      msTensEl.textContent = msTens;
-      msHunIncrement();
-    }
+    msTens = incrementNumber(msTens, document.getElementById("msTens"));
+    if(incNext) { msHunIncrement(); }
   }
   
   function msHunIncrement() {
-    if(msHun<9) {
-      msHun++;
-      msHunEl.textContent = msHun;
-    } else {
-      msHun = 0;
-      msHunEl.textContent = msHun;
-      sOnesIncrement();
-    }
+    incNext = false;
+    msHun = incrementNumber(msHun, document.getElementById("msHundreds"));
+    if(incNext) { sOnesIncrement(); }
   }
   
   function sOnesIncrement() {
-    if(sOnes<9) {
-      sOnes++;
-      sOnesEl.textContent = sOnes;
-    } else {
-      sOnes = 0;
-      sOnesEl.textContent = sOnes;
-      sTensIncrement();
-    }
+    incNext = false;
+    sOnes = incrementNumber(sOnes, document.getElementById("secondOnes"));
+    if(incNext) { sTensIncrement(); }
   }
   
   function sTensIncrement() {
     sTens++;
-    sOnesEl.textContent = sOnes;
     sTensEl.textContent = sTens;
     document.querySelector(".digits").classList.add('redDigit')
     clearInterval(timer);
-    document.getElementById("start").disabled = false;
-    document.getElementById("reset").disabled = false;
+    toggleDisabledOnButtons("start");
+    toggleDisabledOnButtons("reset");
   }
 };
